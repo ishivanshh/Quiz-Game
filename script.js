@@ -15,53 +15,52 @@ const restartButton = document.getElementById("restart-btn");
 const progressBar = document.getElementById("progress");
 
 const quizQuestions = [
-  {
-    question: "What is the capital of France?",
-    answers: [
-      { text: "London", correct: false },
-      { text: "Berlin", correct: false },
-      { text: "Paris", correct: true },
-      { text: "Madrid", correct: false },
-    ],
-  },
-  {
-    question: "Which planet is known as the Red Planet?",
-    answers: [
-      { text: "Venus", correct: false },
-      { text: "Mars", correct: true },
-      { text: "Jupiter", correct: false },
-      { text: "Saturn", correct: false },
-    ],
-  },
-  {
-    question: "What is the largest ocean on Earth?",
-    answers: [
-      { text: "Atlantic Ocean", correct: false },
-      { text: "Indian Ocean", correct: false },
-      { text: "Arctic Ocean", correct: false },
-      { text: "Pacific Ocean", correct: true },
-    ],
-  },
-  {
-    question: "Which of these is NOT a programming language?",
-    answers: [
-      { text: "Java", correct: false },
-      { text: "Python", correct: false },
-      { text: "Banana", correct: true },
-      { text: "JavaScript", correct: false },
-    ],
-  },
-  {
-    question: "What is the chemical symbol for gold?",
-    answers: [
-      { text: "Go", correct: false },
-      { text: "Gd", correct: false },
-      { text: "Au", correct: true },
-      { text: "Ag", correct: false },
-    ],
-  },
+    {
+        question: "Who is known as the 'King of Cricket'?",
+        answers: [
+            { text: "Virat Kohli", correct: true },
+            { text: "MS Dhoni", correct: false },
+            { text: "Sachin Tendulkar", correct: false },
+            { text: "Ricky Ponting", correct: false }
+        ]
+    },
+    {
+        question: "How many players are there in a cricket team (on the field)?",
+        answers: [
+            { text: "10", correct: false },
+            { text: "11", correct: true },
+            { text: "12", correct: false },
+            { text: "9", correct: false }
+        ]
+    },
+    {
+        question: "Which country won the ICC Cricket World Cup 2011?",
+        answers: [
+            { text: "Australia", correct: false },
+            { text: "India", correct: true },
+            { text: "Sri Lanka", correct: false },
+            { text: "England", correct: false }
+        ]
+    },
+    {
+        question: "What is the maximum number of overs in a T20 cricket match per team?",
+        answers: [
+            { text: "10", correct: false },
+            { text: "20", correct: true },
+            { text: "50", correct: false },
+            { text: "40", correct: false }
+        ]
+    },
+    {
+        question: "Who holds the record for the most century in ODIs?",
+        answers: [
+            { text: "Virat Kohli", correct: true },
+            { text: "Chris Gayle", correct: false },
+            { text: "AB de Villiers", correct: false },
+            { text: "Shahid Afridi", correct: false }
+        ]
+    }
 ];
-
 // QUIZ STATE VARS
 let currentQuestionIndex = 0;
 let score = 0;
@@ -75,104 +74,104 @@ startButton.addEventListener("click", startQuiz);
 restartButton.addEventListener("click", restartQuiz);
 
 function startQuiz() {
-  // reset vars
-  currentQuestionIndex = 0;
-  score = 0;
-  scoreSpan.textContent = 0;
+    // reset vars
+    currentQuestionIndex = 0;
+    score = 0;
+    scoreSpan.textContent = 0;
 
-  startScreen.classList.remove("active");
-  quizScreen.classList.add("active");
+    startScreen.classList.remove("active");
+    quizScreen.classList.add("active");
 
-  showQuestion();
+    showQuestion();
 }
 
 function showQuestion() {
-  // reset state
-  answersDisabled = false;
+    // reset state
+    answersDisabled = false;
 
-  const currentQuestion = quizQuestions[currentQuestionIndex];
+    const currentQuestion = quizQuestions[currentQuestionIndex];
 
-  currentQuestionSpan.textContent = currentQuestionIndex + 1;
+    currentQuestionSpan.textContent = currentQuestionIndex + 1;
 
-  const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
-  progressBar.style.width = progressPercent + "%";
+    const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
+    progressBar.style.width = progressPercent + "%";
 
-  questionText.textContent = currentQuestion.question;
-   // this will clear all the previous questions
-  answersContainer.innerHTML = "";
+    questionText.textContent = currentQuestion.question;
+    // this will clear all the previous questions
+    answersContainer.innerHTML = "";
 
-  currentQuestion.answers.forEach((answer) => {
-    const button = document.createElement("button");
-    button.textContent = answer.text;
-    button.classList.add("answer-btn");
+    currentQuestion.answers.forEach((answer) => {
+        const button = document.createElement("button");
+        button.textContent = answer.text;
+        button.classList.add("answer-btn");
 
-    // what is dataset? it's a property of the button element that allows you to store custom data
-    button.dataset.correct = answer.correct;
+        // what is dataset? it's a property of the button element that allows you to store custom data
+        button.dataset.correct = answer.correct;
 
-    button.addEventListener("click", selectAnswer);
+        button.addEventListener("click", selectAnswer);
 
-    answersContainer.appendChild(button);
-  });
+        answersContainer.appendChild(button);
+    });
 }
 
 function selectAnswer(event) {
-  // optimization check
-  if (answersDisabled) return;
+    // optimization check
+    if (answersDisabled) return;
 
-  answersDisabled = true;
+    answersDisabled = true;
 
-  const selectedButton = event.target;
-  const isCorrect = selectedButton.dataset.correct === "true";
+    const selectedButton = event.target;
+    const isCorrect = selectedButton.dataset.correct === "true";
 
-  // Here Array.from() is used to convert the NodeList returned by answersContainer.children into an array, this is because the NodeList is not an array and we need to use the forEach method
-  Array.from(answersContainer.children).forEach((button) => {
-    if (button.dataset.correct === "true") {
-      button.classList.add("correct");
-    } else if (button === selectedButton) {
-      button.classList.add("incorrect");
+    // Here Array.from() is used to convert the NodeList returned by answersContainer.children into an array, this is because the NodeList is not an array and we need to use the forEach method
+    Array.from(answersContainer.children).forEach((button) => {
+        if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+        } else if (button === selectedButton) {
+            button.classList.add("incorrect");
+        }
+    });
+
+    if (isCorrect) {
+        score++;
+        scoreSpan.textContent = score;
     }
-  });
 
-  if (isCorrect) {
-    score++;
-    scoreSpan.textContent = score;
-  }
+    setTimeout(() => {
+        currentQuestionIndex++;
 
-  setTimeout(() => {
-    currentQuestionIndex++;
-
-    // check if there are more questions or if the quiz is over
-    if (currentQuestionIndex < quizQuestions.length) {
-      showQuestion();
-    } else {
-      showResults();
-    }
-  }, 1000);
+        // check if there are more questions or if the quiz is over
+        if (currentQuestionIndex < quizQuestions.length) {
+            showQuestion();
+        } else {
+            showResults();
+        }
+    }, 1000);
 }
 
 function showResults() {
-  quizScreen.classList.remove("active");
-  resultScreen.classList.add("active");
+    quizScreen.classList.remove("active");
+    resultScreen.classList.add("active");
 
-  finalScoreSpan.textContent = score;
+    finalScoreSpan.textContent = score;
 
-  const percentage = (score / quizQuestions.length) * 100;
+    const percentage = (score / quizQuestions.length) * 100;
 
-  if (percentage === 100) {
-    resultMessage.textContent = "Perfect! You're a genius!";
-  } else if (percentage >= 80) {
-    resultMessage.textContent = "Great job! You know your stuff!";
-  } else if (percentage >= 60) {
-    resultMessage.textContent = "Good effort! Keep learning!";
-  } else if (percentage >= 40) {
-    resultMessage.textContent = "Not bad! Try again to improve!";
-  } else {
-    resultMessage.textContent = "Keep studying! You'll get better!";
-  }
+    if (percentage === 100) {
+        resultMessage.textContent = "Perfect! You're a genius!";
+    } else if (percentage >= 80) {
+        resultMessage.textContent = "Great job! You know your stuff!";
+    } else if (percentage >= 60) {
+        resultMessage.textContent = "Good effort! Keep learning!";
+    } else if (percentage >= 40) {
+        resultMessage.textContent = "Not bad! Try again to improve!";
+    } else {
+        resultMessage.textContent = "Keep studying! You'll get better!";
+    }
 }
 
 function restartQuiz() {
-  resultScreen.classList.remove("active");
+    resultScreen.classList.remove("active");
 
-  startQuiz();
+    startQuiz();
 }
